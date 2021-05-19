@@ -44,7 +44,7 @@ jobs:
         
     - name: 1.2 繁体转简体
       run: | 
-        python langconv.py
+        
         
         
     - name: 2. 数据分析和可视化
