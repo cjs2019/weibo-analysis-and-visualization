@@ -40,11 +40,11 @@ jobs:
     - name: 1.1 数据预处理
       run: |
         cd weibo-analysis-and-visualization/
-        python pre_graph.py  prepro.py senti_pre.py 
+        # python pre_graph.py  prepro.py senti_pre.py 
         
     - name: 1.2 繁体转简体
       run: | 
-        python zh_wiki.py langconv.py
+        python langconv.py
         
         
     - name: 2. 数据分析和可视化
