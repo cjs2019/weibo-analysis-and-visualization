@@ -26,10 +26,23 @@ jobs:
         pip install jieba
         pip install pandas
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
+    - name: 1.1 数据预处理
       run: |
         cd weibo-analysis-and-visualization/
         python pre_graph.py  prepro.py senti_pre.py 
-    - name: Test with pytest
+    - name: 1.2 繁体转简体
+      run: | 
+        python zh_wiki.py、langconv.py
+    - name: 2.1 数据分析和可视化 - 词云：wc.py（需要跑完prepro.py）
       run: |
-        echo Hello
+        python wc.py
+    - name: 2.2 热度地图： map.py（需要跑完prepro.py）
+      run: |
+        python map.py
+    - name: 2.3 转发、评论、点赞时间序列： line.py（需要跑完senti_pre.py 和 senti_analy.py）
+      run: |
+        python line.py
+    - name: 2.4 微博评论关系图： graph.py（需要跑完pre_graph.py）
+      run: |
+        python graph.py
+
