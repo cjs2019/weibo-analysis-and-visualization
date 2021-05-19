@@ -20,12 +20,15 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install jieba
         pip install pandas
+        pip install wordcloud
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
     - name: tips
       run: |
         echo -e "************** 我是分割线 *******************"
@@ -33,13 +36,16 @@ jobs:
         echo -e "steps for data preprocessing are as follows:\n"
         echo -e "*******************************************"
         echo -e "*******************************************"
+        
     - name: 1.1 数据预处理
       run: |
         cd weibo-analysis-and-visualization/
         python pre_graph.py  prepro.py senti_pre.py 
+        
     - name: 1.2 繁体转简体
       run: | 
-        python zh_wiki.py、langconv.py
+        python zh_wiki.py langconv.py
+        
         
     - name: 2. 数据分析和可视化
       run: |
@@ -51,27 +57,35 @@ jobs:
     - name: 2.1 词云：wc.py（需要跑完prepro.py）
       run: |
         python wc.py
+        
     - name: 2.2 热度地图： map.py（需要跑完prepro.py）
       run: |
         python map.py
+        
     - name: 2.3 转发、评论、点赞时间序列： line.py（需要跑完senti_pre.py 和 senti_analy.py）
       run: |
         python line.py
+        
     - name: 2.4 微博评论关系图： graph.py（需要跑完pre_graph.py）
       run: |
         python graph.py
+        
     - name: 2.5 文本聚类： cluster_tfidf.py 和 cluster_w2v.py（需要跑完prepro.py）
       run: |
         python cluster_tfidf.py cluster_w2v.py
+        
     - name: 2.6 LDA主题模型分析： LDA.py（需要跑完senti_pre.py）tree.py（需要跑完senti_analy.py）
       run: |
         python LDA.py tree.py
+        
     - name: 2.7 情感分析（词典）： senti_analy.py（需要跑完senti_pre.py）3Dbar.py（需要跑完senti_analy.py）pie.py（需要跑完senti_analy.py）
       run: |
         python senti_analy.py 3Dbar.py
+        
     - name: 2.8 情感分析（W2V+LSTM）：Sentiment-Analysis-master文档中的senti_lstm.py（需要跑完senti_pre.py）
       run: |
         python senti_lstm.py
+        
     - name: 2.9 文本相似度分析：similar.py（仅供参考）
       run: |
         python similar.py
